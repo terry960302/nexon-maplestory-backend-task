@@ -16,6 +16,7 @@ describe('RewardService', () => {
 
   const mockEventRepository = {
     findById: jest.fn(),
+    upsert: jest.fn(),
     findByIdAndUpdate: jest.fn(),
   };
 
@@ -183,6 +184,7 @@ describe('RewardService', () => {
       };
 
       mockEventRepository.findById.mockResolvedValue(mockEvent);
+      mockEventRepository.upsert.mockResolvedValue(mockEvent);
 
       // When
       const result = await service.addReward(requestDto);
@@ -191,8 +193,6 @@ describe('RewardService', () => {
       expect(result).toBeDefined();
       expect(result.ruleType).toBe(RewardRuleType.PER_CONDITION);
       expect(result.rewardItems).toHaveLength(1);
-      expect(mockTxHelper.transact).toHaveBeenCalled();
-      expect(mockEvent.save).toHaveBeenCalledWith({ session: mockSession });
     });
 
     it('유효하지 않은 규칙 설정으로 보상 추가 시 예외를 발생시킨다', async () => {

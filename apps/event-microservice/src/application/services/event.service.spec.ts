@@ -16,6 +16,7 @@ describe('EventService', () => {
   const mockEventRepository = {
     findAll: jest.fn(),
     findById: jest.fn(),
+    findByName: jest.fn(),
     create: jest.fn(),
     updateStatus: jest.fn(),
     count: jest.fn(),
@@ -62,6 +63,7 @@ describe('EventService', () => {
 
       mockEventRepository.findAll.mockResolvedValue(mockEvents);
       mockEventRepository.count.mockResolvedValue(1);
+      mockEventRepository.findByName.mockResolvedValue(mockEvents[0]);
 
       // When
       const result = await service.findAll(filter);
@@ -142,7 +144,7 @@ describe('EventService', () => {
       };
 
       mockEventRepository.create.mockResolvedValue(mockCreatedEvent);
-
+      mockEventRepository.findByName.mockResolvedValue(null);
       // When
       const result = await service.create(createDto);
 

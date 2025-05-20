@@ -46,14 +46,17 @@ describe('인증 서비스 (AuthService)', () => {
             findByEmail: jest.fn(),
             create: jest.fn(),
             existsByEmail: jest.fn(),
+            findById: jest.fn(),
           },
         },
         {
           provide: RefreshTokensRepository,
           useValue: {
+            findByToken: jest.fn(),
             create: jest.fn(),
             findByHash: jest.fn(),
             revoke: jest.fn(),
+            revokeAllByUser: jest.fn(),
           },
         },
         { provide: JwtService, useValue: { sign: jest.fn() } },
@@ -121,7 +124,7 @@ describe('인증 서비스 (AuthService)', () => {
       jest
         .spyOn(tokenRepo, 'findByToken')
         .mockResolvedValue(mockRefreshToken as any);
-      jest.spyOn(userRepo, 'findByEmail').mockResolvedValue(mockUser as any);
+      jest.spyOn(userRepo, 'findById').mockResolvedValue(mockUser as any);
       jest.spyOn(jwtService, 'sign').mockReturnValue('newAccessToken');
       jest.spyOn(tokenRepo, 'revoke').mockResolvedValue();
       jest.spyOn(tokenRepo, 'create').mockResolvedValue({} as any);
