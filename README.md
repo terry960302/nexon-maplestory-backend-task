@@ -242,7 +242,7 @@ const { newAchievedRuleIds, rewards } = engine.run(userActivity, pastRuleIds);
 ```bash
 # 리포지토리 클론
 git clone <repo-url>
-cd nexon-maplestory-event-rewards-msa
+cd nexon-maplestory-backend-task
 
 # 프로젝트 최상단 의존성 설치 (워크스페이스 전부)
 yarn install
