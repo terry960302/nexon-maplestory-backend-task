@@ -57,7 +57,7 @@ MapleStory 사례를 조사해봤고, 이를 기준으로 보면 보상 지급 �
 
 #### 3-1. `RewardRule` 추상 클래스 정의
 
-`````ts
+```ts
 // reward-rule.entity.ts
 import { RewardItem } from '@event-microservice/infrastructure/schemas/reward-item.schema';
 
