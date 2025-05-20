@@ -239,7 +239,7 @@ const { newAchievedRuleIds, rewards } = engine.run(userActivity, pastRuleIds);
 - Yarn v1.22 또는 npm v8 이상
 - Docker & Docker Compose
 
-````bash
+```bash
 # 리포지토리 클론
 git clone <repo-url>
 cd nexon-maplestory-event-rewards-msa
@@ -248,12 +248,13 @@ cd nexon-maplestory-event-rewards-msa
 yarn install
 # 또는 npm
 npm install
-
+```
 
 ## 환경 변수 설정
 env/dev/ 폴더에 아래 파일들을 준비하세요.
 
 .env.common
+
 ```env
 NODE_ENV=dev
 
@@ -398,5 +399,3 @@ cd apps/auth-microservice && yarn build
 cd apps/event-microservice && yarn build
 cd apps/gateway && yarn build
 ```
-> 배포 시에는 dist/ 폴더만 Docker 이미지에 포함되며, node_modules는 production 모드로 설치됩니다.
-`````
