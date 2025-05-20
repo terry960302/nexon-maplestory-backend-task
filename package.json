@@ -1,0 +1,20 @@
+{
+  "name": "nexon-maplestory-event-rewards-msa",
+  "version": "1.0.0",
+  "author": "김태완",
+  "description": "넥슨 메이플스토리 백엔드 이벤트/보상 처리 MSA",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "dependencies": {
+    "@grpc/grpc-js": "^1.13.3",
+    "amqp-connection-manager": "^4.1.14",
+    "amqplib": "^0.10.8",
+    "ioredis": "^5.6.1",
+    "kafkajs": "^2.2.4",
+    "mqtt": "^5.13.0",
+    "nats": "^2.29.3"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+   "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*" : ["."],
+      "@gateway/*": ["apps/gateway/src/*"],
+      "@api-contracts/*": ["libs/api-contracts/src/*"],
+     
+      "@auth-microservice/*": [
+        "apps/auth-microservice/src/*"
+      ],
+      "@event-microservice/*": [
+        "apps/event-microservice/src/*"
+      ]
+    }
+  }
+}

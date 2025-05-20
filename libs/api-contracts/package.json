@@ -1,0 +1,14 @@
+{
+  "name": "api-contracts",
+  "version": "1.0.0",
+  "author": "김태완",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json"
+  },
+  "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "reflect-metadata": "^0.2.2"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "rootDir": ".",
+  "roots": ["<rootDir>", "<rootDir>/../../../libs/api-contracts/src"],
+  "testRegex": ".e2e-spec\\.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleFileExtensions": ["ts", "js", "json", "node"],
+  "moduleNameMapper": {
+    "^@auth-microservice/(.*)$": "<rootDir>/../src/$1",
+    "^@api-contracts/(.*)$": "<rootDir>/../../../libs/api-contracts/src/$1"
+  },
+  "transformIgnorePatterns": []
+}

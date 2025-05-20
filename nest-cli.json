@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "api-contracts": {
+      "type": "library",
+      "root": "libs/api-contracts",
+      "entryFile": "index",
+      "sourceRoot": "libs/api-contracts/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/api-contracts/tsconfig.lib.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
+}

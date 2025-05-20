@@ -1,0 +1,2 @@
+export const SERVICE_AUTH = 'SERVICE_AUTH';
+export const SERVICE_EVENT = 'SERVICE_EVENT';
