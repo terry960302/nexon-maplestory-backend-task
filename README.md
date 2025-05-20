@@ -57,7 +57,7 @@ MapleStory 사례를 조사해봤고, 이를 기준으로 보면 보상 지급 �
 
 #### 3-1. `RewardRule` 추상 클래스 정의
 
-````ts
+`````ts
 // reward-rule.entity.ts
 import { RewardItem } from '@event-microservice/infrastructure/schemas/reward-item.schema';
 
@@ -73,9 +73,11 @@ export abstract class RewardRule {
     state: Set<string>,
   ): RewardItem[];
 }
+```
 
 #### 3-2. 룰별 구현체
 PerConditionRule (조건 충족 시 1회 지급)
+
 ```ts
 // per-condition.rule.ts
 import { RewardRule } from '@event-microservice/domain/rewards/reward-rule.entity';
@@ -89,7 +91,7 @@ export class PerConditionRule extends RewardRule {
     return this.rewardItems;
   }
 }
-````
+```
 
 StageRule (누적 단계별 지급)
 
@@ -146,6 +148,55 @@ export class FinalRule extends RewardRule {
   }
 }
 ```
+
+#### 3-3. 보상 분배 엔진
+
+> 엔진을 통해 각 조건마다 충족하면 보상을 줄수도 있고, 누적에 따라 단계적으로 줄수도 있고, 모든 조건을 만족하는 경우에만 줄수도 있습니다. 
+
+```ts
+// reward-engine.ts
+import { RewardRule } from '@event-microservice/domain/rewards/reward-rule.entity';
+import { RewardItem } from '@event-microservice/infrastructure/schemas/reward-item.schema';
+
+export class RewardEngine {
+  constructor(private readonly rules: RewardRule[]) {}
+
+  run(
+    activity: Record<string, any>,
+    pastRuleIds: string[],
+  ): { newAchievedRuleIds: string[]; rewards: RewardItem[] } {
+    const state = new Set(pastRuleIds);
+    const rewards: RewardItem[] = [];
+
+    for (const rule of this.rules) {
+      const items = rule.apply(activity, state);
+      if (items.length) rewards.push(...items);
+    }
+
+    const newAchievedRuleIds = Array.from(state)
+      .filter(id => !pastRuleIds.includes(id));
+
+    return { newAchievedRuleIds, rewards };
+  }
+}
+
+```
+
+#### 3-4. 핵심 처리 흐름 예시
+
+```ts
+// 1) DB에서 룰 문서 로드
+const docs = await rewardRuleRepo.find({ eventId });
+
+// 2) 룰 팩토리로 인스턴스 생성
+const rules = createRulesFromDocs(docs);
+
+// 3) 엔진 실행
+const engine = new RewardEngine(rules);
+const { newAchievedRuleIds, rewards } = engine.run(userActivity, pastRuleIds);
+```
+
+> 이 구조를 적용하면, 새 룰이 추가되거나 지급 방식이 변경될 때마다 해당 룰 클래스만 구현·등록하면 되어 유지보수와 확장성이 크게 향상됩니다.
 
 ## 프로젝트 구조
 
@@ -210,7 +261,7 @@ NODE_ENV=dev
 JWT_SECRET_KEY=<시크릿키>
 JWT_ACCESS_EXPIRES_IN_MINS=30  # 분
 JWT_REFRESH_EXPIRES_IN_DAYS=30 # 일
-````
+```
 
 .env.auth
 
@@ -275,13 +326,13 @@ cd apps/auth-microservice
 yarn start:dev
 ```
 
-```
+```bash
 # Event Service
 cd apps/event-microservice
 yarn start:dev
 ```
 
-````
+```bash
 # Gateway
 cd apps/gateway
 yarn start:dev
@@ -348,4 +399,4 @@ cd apps/event-microservice && yarn build
 cd apps/gateway && yarn build
 ```
 > 배포 시에는 dist/ 폴더만 Docker 이미지에 포함되며, node_modules는 production 모드로 설치됩니다.
-````
+`````
